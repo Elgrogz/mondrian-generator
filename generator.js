@@ -83,12 +83,20 @@ var canvas = document.querySelector('canvas');
   for (var i = 0; i < size; i += step) {
     splitSquaresWith({ y: i });
     splitSquaresWith({ x: i });
+    console.log(squares)
   }
+
   function draw() {
+    // console.log(squares.length)
+    console.log('blah')
     for (var i = 0; i < colors.length; i++) {
       squares[Math.floor(Math.random() * squares.length)].color = colors[i];
     }
-    
+    // console.log(squares)
+
+    var randomDisplacement = 15;
+    var rotateMultiplier = 20;
+    var offset = 10;
     
     for (var i = 0; i < squares.length; i++) {
       if(squares[i].color) {
@@ -104,8 +112,18 @@ var canvas = document.querySelector('canvas');
         squares[i].width,
         squares[i].height
       );
+
+      var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+      var rotateAmt = squares[i].y / size * Math.PI / 180 * plusOrMinus * Math.random() * rotateMultiplier;
+
+      plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+      var translateAmt = squares[i].y / size * plusOrMinus * Math.random() * randomDisplacement;
+
+      context.translate(squares[i].x + translateAmt + offset, squares[i].y + offset);
+      context.rotate(rotateAmt);
+
       context.stroke();
     }
   }
 
-  draw();
+  draw(); 
